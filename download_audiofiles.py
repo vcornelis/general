@@ -11,7 +11,6 @@ os.chdir("directory_to_save")
 #Studies van 2015
 link = "http://hetlichtdeslevens.nl/studies/audio.html"
 website = rq.get(link)
-
 soup = bs(website.content, "html.parser")
 
 findFiles = soup.find_all("h5")
@@ -20,12 +19,10 @@ findLinks = soup.find_all("audio")
 #findContent - optioneel om de beschrijving toe te voegen
 
 preekTitels = []
-
 for titles in findFiles:
 	preekTitels.append(titles.text)
 
 preekLinks = []
-
 for i in range(0, len(preekLinks)):
 	temp = findLinks[i]
 	temp = temp["src"]
@@ -40,11 +37,11 @@ data.to_csv('test.csv', sep=';', encoding='utf-8')
 
 os.chdir("directory_to_save_audio_files")
 
-i = 0
+file_no = 0
 for mp3 in preekLinks:
-	i += 1
+	file_no += 1
 	openURL = ul2.urlopen(mp3)
-	filename = 'preek_2015_%s.mp3' % i
+	filename = 'preek_2015_%s.mp3' % file_no
 	output = open(filename, 'wb')
 	output.write(openURL.read())
 	output.close()
