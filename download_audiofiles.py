@@ -6,7 +6,7 @@ import os
 import re
 from bs4 import BeautifulSoup as bs 
 
-os.chdir("/Users/cornelisvletter/desktop")
+os.chdir("directory_to_save")
 
 #Studies van 2015
 link = "http://hetlichtdeslevens.nl/studies/audio.html"
@@ -16,8 +16,8 @@ soup = bs(website.content, "html.parser")
 
 findFiles = soup.find_all("h5")
 findLinks = soup.find_all("audio")
-#findDate
-#findContent
+#findDate - optioneel om de datum not toe te voegen
+#findContent - optioneel om de beschrijving toe te voegen
 
 preekTitels = []
 
@@ -26,7 +26,7 @@ for titles in findFiles:
 
 preekLinks = []
 
-for i in range(0,len(findLinks)):
+for i in range(0, len(preekLinks)):
 	temp = findLinks[i]
 	temp = temp["src"]
 	preekLinks.append(temp)
@@ -35,9 +35,10 @@ data = pd.DataFrame(preekTitels)
 data.columns = ['Titel']
 data['Audio'] = preekLinks
 
+#voor als je ook een bestandje wilt met welke audio files je hebt gedownload
 data.to_csv('test.csv', sep=';', encoding='utf-8')
 
-os.chdir("/Users/cornelisvletter/desktop/progs/personal/Preken")
+os.chdir("directory_to_save_audio_files")
 
 i = 0
 for mp3 in preekLinks:
@@ -56,7 +57,7 @@ for mp3 in preekLinks:
 years = range(2014, 2000, -1)
 
 for year in years:
-	location = '/Users/cornelisvletter/desktop/progs/personal/Preken/Jaar_%s' % year
+	location = 'directory_to_save/Preken/Jaar_%s' % year
 	os.chdir(location)
 
 	link = 'http://www.hetlichtdeslevens.nl/studies/audio%s.html' % year
